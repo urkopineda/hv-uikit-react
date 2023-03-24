@@ -5,8 +5,7 @@ import { HvBaseProps } from "../../types";
 import { HvWarningText } from "components";
 import { HvLabelProps } from "../Forms/Label";
 import { isInvalid } from "../Forms/FormElement/validationStates";
-import { useControlled, useUniqueId } from "hooks";
-import { setId } from "utils";
+import { useControlled, useId } from "hooks";
 import {
   StyledDivContainer,
   StyledHvBaseRadio,
@@ -172,7 +171,7 @@ export const HvRadio = (props: HvRadioProps) => {
     ...others
   } = props;
 
-  const elementId = useUniqueId(id, "hvradio");
+  const elementId = useId(id);
 
   const [focusVisible, setFocusVisible] = useState(false);
 
@@ -221,13 +220,13 @@ export const HvRadio = (props: HvRadioProps) => {
   let errorMessageId: string | undefined;
   if (isStateInvalid) {
     errorMessageId = canShowError
-      ? setId(elementId, "error")
+      ? useId(elementId)
       : ariaErrorMessage;
   }
 
   const radio = (
     <StyledHvBaseRadio
-      id={label ? setId(elementId, "input") : setId(id, "input")}
+      id={label ? useId(elementId) : useId(id)}
       name={name}
       className={clsx(
         radioClasses.radio,
@@ -272,10 +271,10 @@ export const HvRadio = (props: HvRadioProps) => {
             classes?.container,
             disabled && clsx(radioClasses.disabled, classes?.disabled),
             focusVisible &&
-              label &&
-              clsx(radioClasses.focusVisible, classes?.focusVisible),
+            label &&
+            clsx(radioClasses.focusVisible, classes?.focusVisible),
             isStateInvalid &&
-              clsx(radioClasses.invalidContainer, classes?.invalidContainer)
+            clsx(radioClasses.invalidContainer, classes?.invalidContainer)
           )}
           $invalid={isStateInvalid}
           $focusVisible={!!(focusVisible && label)}
@@ -283,8 +282,8 @@ export const HvRadio = (props: HvRadioProps) => {
         >
           {radio}
           <StyledHvLabel
-            id={setId(elementId, "label")}
-            htmlFor={setId(elementId, "input")}
+            id={useId(elementId)}
+            htmlFor={useId(elementId)}
             label={label}
             className={clsx(radioClasses.label, classes?.label)}
             $disabled={disabled}
@@ -295,7 +294,7 @@ export const HvRadio = (props: HvRadioProps) => {
         radio
       )}
       {canShowError && (
-        <HvWarningText id={setId(elementId, "error")} disableBorder>
+        <HvWarningText id={useId(elementId)} disableBorder>
           {statusMessage}
         </HvWarningText>
       )}

@@ -11,7 +11,8 @@ import {
   HvFormElementDescriptorsContext,
 } from "../../Forms/FormElement";
 import { isRange, isSameDay, formatToLocale, isDate } from "../utils";
-import { isKeypress, keyboardCodes, setId } from "utils";
+import { isKeypress, keyboardCodes } from "utils";
+import { useId } from "hooks";
 import { HvTypography } from "components";
 import { Info } from "@hitachivantara/uikit-react-icons";
 import { DateRangeProp } from "../Calendar";
@@ -58,7 +59,8 @@ export const HvCalendarHeader = ({
   const [displayValue, setDisplayValue] = useState("");
   const [weekdayDisplay, setWeekdayDisplay] = useState("");
 
-  const localId = id ?? setId(elementId, "calendarHeader");
+  const headerId = useId(id || elementId, "calendar-header");
+  const inputId = useId(id || elementId, "calendar-input");
 
   const inputValue = editedValue ?? displayValue;
   const localeFormat = dayjs().locale(locale).localeData().longDateFormat("L");
@@ -139,21 +141,22 @@ export const HvCalendarHeader = ({
   const onChangeHandler = (event) => {
     setEditedValue(event.target.value);
   };
+
   return (
     <>
       <StyledRoot
-        id={localId}
+        id={headerId}
         className={clsx(
           calendarHeaderClasses.root,
           classes?.root,
           !isValidValue &&
-            inputValue !== "" &&
-            clsx(calendarHeaderClasses.invalid, classes?.invalid)
+          inputValue !== "" &&
+          clsx(calendarHeaderClasses.invalid, classes?.invalid)
         )}
       >
         {showDayOfWeek && (
           <StyledHeaderDayOfWeek
-            variant="normalText"
+            variant="body"
             className={clsx(
               calendarHeaderClasses.headerDayOfWeek,
               classes?.headerDayOfWeek
@@ -171,7 +174,7 @@ export const HvCalendarHeader = ({
         >
           <StyledInput
             type="text"
-            id={setId(localId, "header-input")}
+            id={inputId}
             placeholder={localeFormat}
             value={inputValue}
             className={clsx(calendarHeaderClasses.input, classes?.input)}
@@ -197,7 +200,7 @@ export const HvCalendarHeader = ({
         {!isValidValue && inputValue !== "" && (
           <HvTypography
             component="span"
-            variant="normalText"
+            variant="body"
             className={clsx(
               calendarHeaderClasses.invalidMessageStyling,
               classes?.invalidMessageStyling

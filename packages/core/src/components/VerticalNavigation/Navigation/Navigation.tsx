@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useContext } from "react";
 import clsx from "clsx";
-import { setId, wrapperTooltip } from "utils";
-import { useControlled } from "hooks";
+import { wrapperTooltip } from "utils";
+import { useControlled, useId } from "hooks";
 import {
   HvVerticalNavigationTreeView,
   HvVerticalNavigationTreeViewItem,
@@ -69,10 +69,11 @@ const createListHierarchy = (
     } = item;
 
     const ItemText = wrapperTooltip(true, itemLabel, itemLabel);
+    
 
     return (
       <HvVerticalNavigationTreeViewItem
-        id={setId(id, itemId)}
+        id={itemId}
         className={classes?.listItem}
         href={href}
         target={target}
@@ -205,13 +206,13 @@ export const HvVerticalNavigationTree = ({
         verticalNavigationTreeClasses.root,
         classes?.root,
         !isOpen &&
-          collapsedMode == "simple" &&
-          clsx(verticalNavigationTreeClasses.collapsed, classes?.collapsed)
+        collapsedMode == "simple" &&
+        clsx(verticalNavigationTreeClasses.collapsed, classes?.collapsed)
       )}
       {...others}
     >
       <HvVerticalNavigationTreeView
-        id={setId(id, "tree")}
+        id={useId(id, "treeview-navigation")}
         className={clsx(verticalNavigationTreeClasses.list, classes?.list)}
         selectable
         mode={mode}

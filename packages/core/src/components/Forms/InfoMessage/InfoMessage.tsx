@@ -2,7 +2,7 @@ import { HvBaseProps } from "../../../types";
 import { StyledTypography } from "./InfoMessage.styles";
 import { HvFormElementContext } from "../FormElement";
 import { useContext } from "react";
-import { setId } from "utils";
+import { useId } from "hooks";
 import clsx from "clsx";
 import infoMessageClasses, { HvInfoMessageClasses } from "./infoMessageClasses";
 
@@ -29,7 +29,7 @@ export const HvInfoMessage = ({
 }: HvInfoMessageProps) => {
   const { elementId, elementDisabled } = useContext(HvFormElementContext);
   const localDisabled = disabled || elementDisabled;
-  const localId = id ?? setId(elementId, "description");
+  const localId = id ?? useId(elementId, "info-message");
 
   return (
     <StyledTypography

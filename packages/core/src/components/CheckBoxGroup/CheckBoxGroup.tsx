@@ -6,8 +6,8 @@ import {
   StyledLabel,
 } from "./CheckBoxGroup.styles";
 import clsx from "clsx";
-import { useControlled, useUniqueId } from "hooks";
-import { multiSelectionEventHandler, setId } from "utils";
+import { useControlled, useId } from "hooks";
+import { multiSelectionEventHandler } from "utils";
 import { HvCheckBox, HvInfoMessage, HvWarningText } from "components";
 import { Children, cloneElement, useCallback, useMemo, useRef } from "react";
 import checkBoxGroupClasses, {
@@ -173,7 +173,7 @@ export const HvCheckBoxGroup = ({
 
   const [validationMessage] = useControlled(statusMessage, "Required");
 
-  const elementId = useUniqueId(id, "hvcheckboxgroup");
+  const elementId = useId(id);
 
   const selectionAnchor = useRef(undefined);
 
@@ -316,7 +316,7 @@ export const HvCheckBoxGroup = ({
       (status === undefined && required));
 
   const errorMessageId = canShowError
-    ? setId(elementId, "error")
+    ? useId(elementId)
     : ariaErrorMessage;
 
   return (
@@ -331,14 +331,14 @@ export const HvCheckBoxGroup = ({
     >
       {label && (
         <StyledLabel
-          id={setId(elementId, "label")}
+          id={useId(elementId)}
           label={label}
           className={clsx(classes?.label, checkBoxGroupClasses.label)}
         />
       )}
 
       {description && (
-        <HvInfoMessage id={setId(elementId, "description")}>
+        <HvInfoMessage id={useId(elementId)}>
           {description}
         </HvInfoMessage>
       )}
@@ -347,7 +347,7 @@ export const HvCheckBoxGroup = ({
         role="group"
         aria-label={ariaLabel}
         aria-labelledby={
-          ariaLabelledBy || (label && setId(elementId, "label")) || undefined
+          ariaLabelledBy || (label && useId(elementId)) || undefined
         }
         aria-disabled={disabled ? true : undefined}
         aria-invalid={validationState === "invalid" ? true : undefined}
@@ -355,7 +355,7 @@ export const HvCheckBoxGroup = ({
           validationState === "invalid" ? errorMessageId : undefined
         }
         aria-describedby={
-          [description && setId(elementId, "description"), ariaDescribedBy]
+          [description && useId(elementId), ariaDescribedBy]
             .join(" ")
             .trim() || undefined
         }
@@ -390,7 +390,7 @@ export const HvCheckBoxGroup = ({
 
       {canShowError && (
         <HvWarningText
-          id={setId(elementId, "error")}
+          id={useId(elementId)}
           disableBorder
           className={clsx(classes?.error, checkBoxGroupClasses.error)}
         >

@@ -7,8 +7,7 @@ import {
   StyledLabel,
 } from "./RadioGroup.styles";
 import clsx from "clsx";
-import { useControlled, useUniqueId } from "hooks";
-import { setId } from "utils";
+import { useControlled, useId } from "hooks";
 import radioGroupClasses, { HvRadioGroupClasses } from "./radioGroupClasses";
 
 export type HvRadioGroupProps = HvBaseProps<HTMLDivElement, { onChange }> & {
@@ -130,15 +129,15 @@ export const HvRadioGroup = ({
   onChange,
   ...others
 }: HvRadioGroupProps) => {
-  const elementId = useUniqueId(id, "hvradiogroup");
+  const elementId = useId(id);
 
   const [value, setValue] = useControlled(
     valueProp,
     defaultValue !== undefined
       ? defaultValue
       : // When uncontrolled and no default value is given,
-        // extract the initial selected values from the children own state
-        () => getValueFromSelectedChildren(children)
+      // extract the initial selected values from the children own state
+      () => getValueFromSelectedChildren(children)
   );
 
   const onChildChangeInterceptor = useCallback(
@@ -213,7 +212,7 @@ export const HvRadioGroup = ({
       (status === undefined && required));
 
   const errorMessageId = canShowError
-    ? setId(elementId, "error")
+    ? useId(elementId)
     : ariaErrorMessage;
 
   return (
@@ -228,14 +227,14 @@ export const HvRadioGroup = ({
     >
       {label && (
         <StyledLabel
-          id={setId(elementId, "label")}
+          id={useId(elementId)}
           label={label}
           className={clsx(classes?.label, radioGroupClasses.label)}
         />
       )}
 
       {description && (
-        <HvInfoMessage id={setId(elementId, "description")}>
+        <HvInfoMessage id={useId(elementId)}>
           {description}
         </HvInfoMessage>
       )}
@@ -244,12 +243,12 @@ export const HvRadioGroup = ({
         role="radiogroup"
         aria-label={ariaLabel}
         aria-labelledby={
-          ariaLabelledBy || (label && setId(elementId, "label")) || undefined
+          ariaLabelledBy || (label && useId(elementId)) || undefined
         }
         aria-invalid={status === "invalid" ? true : undefined}
         aria-errormessage={status === "invalid" ? errorMessageId : undefined}
         aria-describedby={
-          [description && setId(elementId, "description"), ariaDescribedBy]
+          [description && useId(elementId), ariaDescribedBy]
             .join(" ")
             .trim() || undefined
         }
@@ -257,11 +256,11 @@ export const HvRadioGroup = ({
           classes?.group,
           radioGroupClasses.group,
           orientation === "vertical" &&
-            clsx(classes?.vertical, radioGroupClasses.vertical),
+          clsx(classes?.vertical, radioGroupClasses.vertical),
           orientation === "horizontal" &&
-            clsx(classes?.horizontal, radioGroupClasses.horizontal),
+          clsx(classes?.horizontal, radioGroupClasses.horizontal),
           status === "invalid" &&
-            clsx(classes?.invalid, radioGroupClasses.invalid)
+          clsx(classes?.invalid, radioGroupClasses.invalid)
         )}
         $vertical={orientation === "vertical"}
         $horizontal={orientation === "horizontal"}
@@ -273,7 +272,7 @@ export const HvRadioGroup = ({
 
       {canShowError && (
         <HvWarningText
-          id={setId(elementId, "error")}
+          id={useId(elementId)}
           disableBorder
           className={clsx(classes?.error, radioGroupClasses.error)}
         >

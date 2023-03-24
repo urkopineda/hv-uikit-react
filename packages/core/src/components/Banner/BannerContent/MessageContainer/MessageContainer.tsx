@@ -7,7 +7,7 @@ import {
   StyledTypography,
   StyledMessageContainer,
 } from "./MessageContainer.styles";
-import { setId } from "utils";
+import { useId } from "hooks";
 
 export type HvMessageContainerProps = HvBaseProps & {
   /** Icon to be presented. */
@@ -47,14 +47,14 @@ export const HvMessageContainer = ({
         </StyledIconContainer>
       )}
       <StyledTypography
-        id={setId(id, "message-text")}
+        id={useId(id, "message")}
         className={clsx(messageContainerClasses.message, classes?.message)}
       >
         {message}
       </StyledTypography>
       {actionsOnMessage && (
         <StyledMessageContainer
-          id={setId(id, "message-actions")}
+          id={useId(id, "message-container")}
           className={clsx(
             messageContainerClasses.actionMessageContainer,
             classes?.actionMessageContainer

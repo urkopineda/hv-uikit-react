@@ -45,7 +45,7 @@ import {
   computeValidationMessage,
   HvInputValidity,
 } from "../BaseInput/validations";
-import { isBrowser, isKeypress, keyboardCodes, setId } from "../../utils";
+import { isBrowser, isKeypress, keyboardCodes } from "../../utils";
 import {
   HvFormStatus,
   HvInfoMessage,
@@ -58,8 +58,8 @@ import {
   useControlled,
   useIsMounted,
   useLabels,
-  useUniqueId,
-} from "../../hooks";
+  useId,
+} from "hooks";
 import inputClasses, { HvInputClasses } from "./inputClasses";
 import { InputBaseComponentProps as MuiInputBaseComponentProps } from "@mui/material";
 
@@ -249,7 +249,7 @@ export const HvInput = ({
   ...others
 }: HvInputProps) => {
   const labels = useLabels(DEFAULT_LABELS, labelsProp);
-  const elementId = useUniqueId(id, "hvinput");
+  const elementId = useId(id);
 
   const inputRef = useRef(inputRefProp || null);
 
@@ -368,12 +368,14 @@ export const HvInput = ({
 
   const materialInputRef = useRef<HTMLElement | null>(null);
   const suggestionRef = useRef<HTMLElement | null>(null);
+  const suggestionsId = useId(elementId);
+  const suggestionsListId = useId(elementId);
+  const adornmentId = useId(elementId);
+  const clearButtonId = useId(elementId);
 
   useEffect(() => {
     // TODO Replace with ref
-    suggestionRef.current = document.getElementById(
-      setId(elementId, "suggestions") || ""
-    );
+    suggestionRef.current = document.getElementById(suggestionsId || "");
   }, [elementId]);
 
   // miscellaneous state
@@ -482,7 +484,7 @@ export const HvInput = ({
   const getSuggestions = (li) => {
     // TODO Replace with ref
     const listEl = document.getElementById(
-      setId(elementId, "suggestions-list") || ""
+      suggestionsListId || ""
     );
     return li != null ? listEl?.getElementsByTagName("li")?.[li] : listEl;
   };
@@ -576,11 +578,11 @@ export const HvInput = ({
           inputClasses.adornmentButton,
           classes?.adornmentButton,
           !showSearchIcon &&
-            clsx("iconClear", inputClasses.iconClear, classes?.iconClear)
+          clsx("iconClear", inputClasses.iconClear, classes?.iconClear)
         )}
         onClick={handleClear}
         aria-label={labels?.clearButtonLabel}
-        aria-controls={setId(elementId, "input")}
+        aria-controls={clearButtonId}
         icon={<CloseXS />}
         $iconClear={!showSearchIcon}
       />
@@ -665,7 +667,7 @@ export const HvInput = ({
           )}
           onClick={handleRevealPassword}
           aria-label={labels?.revealPasswordButtonLabel}
-          aria-controls={setId(elementId, "input")}
+          aria-controls={adornmentId}
           icon={revealPassword ? <PreviewOff /> : <Preview />}
         />
       </HvTooltip>
@@ -756,10 +758,16 @@ export const HvInput = ({
     performValidation();
   }, [focused, isEmptyValue, performValidation]);
 
-  let errorMessageId;
+  let errorElementId = useId(elementId);
+  const inputId = useId(id);
+  const inputElementId = useId(elementId);
+  const labelElementId = useId(elementId);
+  const descriptionElementId = useId(elementId);
+  const suggestionsElementId = useId(elementId);
+
   if (isStateInvalid) {
-    errorMessageId = canShowError
-      ? setId(elementId, "error")
+    errorElementId = canShowError
+      ? errorElementId
       : ariaErrorMessage;
   }
 
@@ -776,7 +784,7 @@ export const HvInput = ({
         classes?.root,
         className,
         hasSuggestions &&
-          clsx(inputClasses.hasSuggestions, classes?.hasSuggestions)
+        clsx(inputClasses.hasSuggestions, classes?.hasSuggestions)
       )}
       onBlur={onContainerBlurHandler}
     >
@@ -786,16 +794,16 @@ export const HvInput = ({
         >
           {hasLabel && (
             <StyledLabel
-              id={setId(elementId, "label")}
+              id={labelElementId}
               className={clsx(inputClasses.label, classes?.label)}
-              htmlFor={setId(elementId, "input")}
+              htmlFor={inputElementId}
               label={label}
             />
           )}
 
           {hasDescription && (
             <HvInfoMessage
-              id={setId(elementId, "description")}
+              id={descriptionElementId}
               className={clsx(inputClasses.description, classes?.description)}
             >
               {description}
@@ -806,8 +814,8 @@ export const HvInput = ({
       <StyledBaseInput
         id={
           hasLabel || showClear || showRevealPasswordButton
-            ? setId(elementId, "input")
-            : setId(id, "input")
+            ? inputElementId
+            : inputId
         }
         name={name}
         value={value}
@@ -846,15 +854,15 @@ export const HvInput = ({
           "aria-label": ariaLabel,
           "aria-labelledby": ariaLabelledBy,
           "aria-invalid": isStateInvalid ? true : undefined,
-          "aria-errormessage": errorMessageId,
+          "aria-errormessage": errorElementId,
           "aria-describedby":
             ariaDescribedBy != null
               ? ariaDescribedBy
               : description
-              ? setId(elementId, "description")
-              : undefined,
+                ? descriptionElementId
+                : undefined,
           "aria-controls": canShowSuggestions
-            ? setId(elementId, "suggestions")
+            ? suggestionsElementId
             : undefined,
 
           ref: materialInputRef,
@@ -880,7 +888,7 @@ export const HvInput = ({
             />
           )}
           <StyledSuggestions
-            id={setId(elementId, "suggestions")}
+            id={suggestionsElementId}
             classes={{
               root: clsx(
                 inputClasses.suggestionsContainer,
@@ -899,7 +907,7 @@ export const HvInput = ({
       )}
       {canShowError && (
         <HvWarningText
-          id={setId(elementId, "error")}
+          id={errorElementId}
           disableBorder
           className={clsx(inputClasses.error, classes?.error)}
         >

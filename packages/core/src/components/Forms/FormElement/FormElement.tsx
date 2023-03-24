@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import clsx from "clsx";
 import { HvBaseProps } from "../../../types";
-import { useUniqueId } from "../../../hooks";
+import { useId } from "hooks";
 import { findDescriptors } from "./utils/FormUtils";
 import { HvFormElementContextProvider } from "./context/FormElementContext";
 import { HvFormElementValueContextProvider } from "./context/FormElementValueContext";
@@ -68,7 +68,7 @@ export const HvFormElement = ({
   status = "standBy",
   ...others
 }: HvFormElementProps) => {
-  const elementId = useUniqueId(id, "hvformelement");
+  const elementId = useId(id, "form-element");
 
   const contextValue = useMemo(
     () => ({

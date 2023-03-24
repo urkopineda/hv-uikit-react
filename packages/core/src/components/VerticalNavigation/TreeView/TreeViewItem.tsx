@@ -9,8 +9,8 @@ import {
 } from "react";
 import clsx from "clsx";
 import { DropDownXS, DropUpXS } from "@hitachivantara/uikit-react-icons";
-import { useForkRef } from "hooks";
-import { setId } from "utils";
+import { useForkRef, useId } from "hooks";
+
 import treeViewItemClasses, {
   HvVerticalNavigationTreeViewItemClasses,
 } from "./treeViewItemClasses";
@@ -79,7 +79,7 @@ export const HvVerticalNavigationTreeViewItem = forwardRef(
 
     const treeviewMode = mode === "treeview";
 
-    let id: string | null = null;
+    let id: string | undefined;
 
     if (idProp != null) {
       id = idProp;
@@ -339,7 +339,7 @@ export const HvVerticalNavigationTreeViewItem = forwardRef(
     const renderedContent = useMemo(
       () => (
         <StyledContent
-          id={setId(id, "button")}
+          id={useId(id, "treeview-item-content")}
           component={href ? "a" : "div"}
           href={href}
           target={target}
@@ -360,25 +360,25 @@ export const HvVerticalNavigationTreeViewItem = forwardRef(
           }}
           {...(treeviewMode
             ? {
-                role: "button",
-                tabIndex: -1,
-                onFocus: handleFocus,
-              }
+              role: "button",
+              tabIndex: -1,
+              onFocus: handleFocus,
+            }
             : {
-                role: "button",
-                tabIndex: selectable || expandable ? 0 : -1,
-                onKeyDown: handleKeyDown,
-                "aria-current": selectable && selected ? "page" : undefined,
-                "aria-expanded": expandable ? expanded : undefined,
-                "aria-controls": expandable ? setId(id, "group") : undefined,
-              })}
+              role: "button",
+              tabIndex: selectable || expandable ? 0 : -1,
+              onKeyDown: handleKeyDown,
+              "aria-current": selectable && selected ? "page" : undefined,
+              "aria-expanded": expandable ? expanded : undefined,
+              "aria-controls": expandable ? groupId : undefined,
+            })}
         >
           {isOpen && expandable && (expanded ? <DropUpXS /> : <DropDownXS />)}
           {!icon &&
-          level === 0 &&
-          !isOpen &&
-          collapsedMode === "icon" &&
-          contentRef.current?.textContent ? (
+            level === 0 &&
+            !isOpen &&
+            collapsedMode === "icon" &&
+            contentRef.current?.textContent ? (
             <HvAvatar
               variant="square"
               size="xs"
@@ -424,7 +424,7 @@ export const HvVerticalNavigationTreeViewItem = forwardRef(
       () =>
         children && (
           <StyledGroup
-            id={setId(id, "group")}
+            id={useId(id, "treeview-item-group")}
             className={clsx(treeViewItemClasses.group, classes?.group)}
             role={treeviewMode ? "group" : undefined}
           >
@@ -444,36 +444,36 @@ export const HvVerticalNavigationTreeViewItem = forwardRef(
           className,
           disabled && clsx(treeViewItemClasses.disabled, classes?.disabled),
           expandable &&
-            clsx(treeViewItemClasses.expandable, classes?.expandable),
+          clsx(treeViewItemClasses.expandable, classes?.expandable),
           expandable &&
-            !expanded &&
-            clsx(treeViewItemClasses.collapsed, classes?.collapsed),
+          !expanded &&
+          clsx(treeViewItemClasses.collapsed, classes?.collapsed),
           expandable &&
-            expanded &&
-            clsx(treeViewItemClasses.expanded, classes?.expanded),
+          expanded &&
+          clsx(treeViewItemClasses.expanded, classes?.expanded),
           selectable &&
-            !disabled &&
-            clsx(treeViewItemClasses.selectable, classes?.selectable),
           !disabled &&
-            !selectable &&
-            clsx(treeViewItemClasses.unselectable, classes?.unselectable),
+          clsx(treeViewItemClasses.selectable, classes?.selectable),
           !disabled &&
-            selectable &&
-            selected &&
-            clsx(treeViewItemClasses.selected, classes?.selected),
+          !selectable &&
+          clsx(treeViewItemClasses.unselectable, classes?.unselectable),
           !disabled &&
-            selectable &&
-            !selected &&
-            clsx(treeViewItemClasses.unselected, classes?.unselected),
+          selectable &&
+          selected &&
+          clsx(treeViewItemClasses.selected, classes?.selected),
+          !disabled &&
+          selectable &&
+          !selected &&
+          clsx(treeViewItemClasses.unselected, classes?.unselected),
           focused && clsx(treeViewItemClasses.focused, classes?.focused),
           !isOpen &&
-            collapsedMode == "simple" &&
-            clsx(treeViewItemClasses.hide, classes?.hide),
+          collapsedMode == "simple" &&
+          clsx(treeViewItemClasses.hide, classes?.hide),
           !isOpen &&
-            collapsedMode == "icon" &&
-            isChildSelected &&
-            isChildSelected(nodeId) &&
-            clsx(treeViewItemClasses.selected, classes?.selected)
+          collapsedMode == "icon" &&
+          isChildSelected &&
+          isChildSelected(nodeId) &&
+          clsx(treeViewItemClasses.selected, classes?.selected)
         )}
         data-hasicon={icon != null ? true : undefined}
         {...(mode === "treeview" && {

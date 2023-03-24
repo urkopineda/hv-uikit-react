@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { MouseEventHandler, useCallback, useContext } from "react";
-import { isKeypress, keyboardCodes, setId } from "utils";
+import { isKeypress, keyboardCodes } from "utils";
+import { useId } from "hooks";
 import { VerticalNavigationContext } from "../VerticalNavigation";
 import { StyledAction } from "./Action.styles";
 import actionClasses, {
@@ -35,7 +36,7 @@ export const HvVerticalNavigationAction = ({
 
   return (
     <StyledAction
-      id={setId(id, "button")}
+      id={useId(id, "action-button")}
       component="div"
       role="button"
       className={clsx(

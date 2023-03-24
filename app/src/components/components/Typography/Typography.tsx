@@ -80,7 +80,7 @@ export const Typography = () => {
           );
         })}
       </HvBox>
-      <HvBox>
+      {/* <HvBox>
         {legacyVariants.map((variant: HvTypographyLegacyVariants) => {
           return (
             <HvBox key={`key_${variant}`} sx={{ marginBottom: theme.space.xs }}>
@@ -98,7 +98,7 @@ export const Typography = () => {
             </HvBox>
           );
         })}
-      </HvBox>
+      </HvBox> */}
     </HvBox>
   );
 };

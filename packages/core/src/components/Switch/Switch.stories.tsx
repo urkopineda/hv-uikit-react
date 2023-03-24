@@ -127,7 +127,7 @@ export const Controlled: StoryObj<HvSwitchProps> = {
           onChange={(_evt, newChecked) => setState(newChecked)}
         />
         <p />
-        <StateString stateProp={state} />
+        <StateString stateProp={state.toString()} />
       </>
     );
   },

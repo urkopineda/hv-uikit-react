@@ -59,7 +59,7 @@ export const HvMonthSelector = ({
           {...others}
         >
           <StyledCalendarMonthlyCell
-            variant="normalText"
+            variant="body"
             className={clsx(
               monthSelectorClasses.calendarMonthlyCell,
               classes?.calendarMonthlyCell,

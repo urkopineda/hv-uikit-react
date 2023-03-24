@@ -10,7 +10,7 @@ import { HvSnackbarClasses, snackbarClasses } from "./snackbarClasses";
 import { capitalize } from "lodash";
 import { SyntheticEvent } from "react";
 import HvSnackBarContentWrapper from "./SnackbarContentWrapper";
-import { setId } from "utils";
+import { useId } from "hooks";
 import { HvActionGeneric } from "components";
 import { HvSnackbarContentWrapperProps } from "./SnackbarContentWrapper/SnackbarContentWrapper";
 import clsx from "clsx";
@@ -159,7 +159,7 @@ export const HvSnackbar = ({
       {...others}
     >
       <HvSnackBarContentWrapper
-        id={setId(id, "content")}
+        id={useId(id)}
         label={label}
         variant={variant}
         customIcon={customIcon}

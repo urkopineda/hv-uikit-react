@@ -5,7 +5,7 @@ import { leftControlClasses, HvLeftControlClasses } from ".";
 import { HvInput, HvInputProps } from "components";
 import { useContext } from "react";
 import { HvControlsContext } from "../context/ControlsContext";
-import { setId } from "utils";
+import { useId } from "hooks";
 
 export type HvLeftControlProps = HvBaseProps & {
   /** if `true` the hide sort by dropdown is not rendered */
@@ -49,7 +49,7 @@ export const HvLeftControl = ({
     >
       {!hideSearch && (
         <HvInput
-          id={setId(id, "search-input")}
+          id={useId(id, "controls-search-input")}
           type="search"
           placeholder={placeholder}
           onChange={(e, value) => onChangeFilter(e, value)}

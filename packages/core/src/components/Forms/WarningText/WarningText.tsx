@@ -4,7 +4,7 @@ import isNil from "lodash/isNil";
 import { HvBaseProps } from "../../../types";
 import { StyledRoot, StyledTypography, StyledIcon } from "./WarningText.styles";
 import { HvFormElementContext } from "../FormElement";
-import { setId } from "utils";
+import { useId } from "hooks";
 import warningTextClasses, { HvWarningTextClasses } from "./warningTextClasses";
 
 export type HvWarningTextProps = HvBaseProps & {
@@ -49,7 +49,7 @@ export const HvWarningText = ({
   const localVisible = !isNil(isVisible)
     ? isVisible
     : elementStatus === "invalid";
-  const localId = id ?? setId(elementId, "error");
+  const warningId = id ?? useId(elementId, "warning-error");
   const showWarning = localVisible && !localDisabled;
   const content = showWarning ? children : "";
   const localAdornment = adornment || (
@@ -73,12 +73,12 @@ export const HvWarningText = ({
     >
       {!disableAdornment && localAdornment}
       <StyledTypography
-        id={localId}
+        id={warningId}
         className={clsx(
           warningTextClasses.warningText,
           classes?.warningText,
           !disableGutter &&
-            clsx(warningTextClasses.topGutter, classes?.topGutter),
+          clsx(warningTextClasses.topGutter, classes?.topGutter),
           hideText && clsx(warningTextClasses.hideText, classes?.hideText)
         )}
         $topGutter={!disableGutter}

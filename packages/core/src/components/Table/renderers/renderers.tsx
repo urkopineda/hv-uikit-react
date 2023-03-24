@@ -1,5 +1,5 @@
 import { DropDownXS, DropRightXS } from "@hitachivantara/uikit-react-icons";
-import { setId } from "utils";
+import { useId } from "hooks";
 import {
   HvOverflowTooltip,
   HvTag,
@@ -198,7 +198,7 @@ export function hvDropdownColumn<
           onChange={(val) => onChange?.(row.id, val)}
           disabled={dsbld}
           dropdownProps={{
-            "aria-labelledby": setId(id, column.id),
+            "aria-labelledby": useId(id, column.id),
           }}
         />
       );

@@ -7,8 +7,8 @@ import {
   PopperPlacementType,
   PopperProps,
 } from "@mui/material";
-import { useControlled, useForkRef, useTheme, useUniqueId } from "hooks";
-import { isKeypress, keyboardCodes, setId } from "utils";
+import { useControlled, useForkRef, useTheme, useId } from "hooks";
+import { isKeypress, keyboardCodes } from "utils";
 import { getFirstAndLastFocus } from "utils/focusableElementFinder";
 import { HvBaseProps } from "../../types";
 import {
@@ -166,7 +166,7 @@ export const HvBaseDropdown = ({
 
   const ariaRole = role || (component == null ? "combobox" : undefined);
 
-  const elementId = useUniqueId(id, "hvbasedropdown");
+  const elementId = useId(id);
 
   const bottom: PopperPlacementType =
     placement && `bottom-${placement === "right" ? "start" : "end"}`;
@@ -191,9 +191,8 @@ export const HvBaseDropdown = ({
 
   const widthCalculatorEffect = useCallback(
     ({ state }: ModifierArguments<Options>) => {
-      state.elements.popper.style.width = `${
-        (state.elements.reference as any).offsetWidth
-      }px`;
+      state.elements.popper.style.width = `${(state.elements.reference as any).offsetWidth
+        }px`;
     },
     []
   );
@@ -334,23 +333,25 @@ export const HvBaseDropdown = ({
       });
     }
 
+    const childrenId = useId(elementId);
+
     return (
       <StyledHeaderRoot
-        id={setId(id, "header")}
+        id={useId(id)}
         className={clsx(
           baseDropdownClasses.header,
           classes?.header,
           disabled &&
-            clsx(baseDropdownClasses.headerDisabled, classes?.headerDisabled),
+          clsx(baseDropdownClasses.headerDisabled, classes?.headerDisabled),
           readOnly &&
-            clsx(baseDropdownClasses.headerReadOnly, classes?.headerReadOnly),
+          clsx(baseDropdownClasses.headerReadOnly, classes?.headerReadOnly),
           isOpen && clsx(baseDropdownClasses.headerOpen, classes?.headerOpen),
           isOpen &&
-            popperPlacement.includes("top") &&
-            clsx(baseDropdownClasses.headerOpenUp, classes?.headerOpenUp),
+          popperPlacement.includes("top") &&
+          clsx(baseDropdownClasses.headerOpenUp, classes?.headerOpenUp),
           isOpen &&
-            popperPlacement.includes("bottom") &&
-            clsx(baseDropdownClasses.headerOpenDown, classes?.headerOpenDown)
+          popperPlacement.includes("bottom") &&
+          clsx(baseDropdownClasses.headerOpenDown, classes?.headerOpenDown)
         )}
         $disabled={disabled}
         $readOnly={readOnly}
@@ -360,7 +361,7 @@ export const HvBaseDropdown = ({
         role={ariaRole === "combobox" ? "textbox" : undefined}
         style={disabled || readOnly ? { pointerEvents: "none" } : undefined}
         aria-controls={
-          isOpen ? setId(elementId, "children-container") : undefined
+          isOpen ? childrenId : undefined
         }
         aria-label={others["aria-label"] ?? undefined}
         aria-labelledby={others["aria-labelledby"] ?? undefined}
@@ -378,10 +379,10 @@ export const HvBaseDropdown = ({
                 baseDropdownClasses.placeholder,
                 classes?.placeholder,
                 disabled &&
-                  clsx(
-                    baseDropdownClasses.selectionDisabled,
-                    classes?.selectionDisabled
-                  )
+                clsx(
+                  baseDropdownClasses.selectionDisabled,
+                  classes?.selectionDisabled
+                )
               )}
               $disabled={disabled}
               variant="body"
@@ -452,10 +453,10 @@ export const HvBaseDropdown = ({
                   baseDropdownClasses.inputExtensionOpen,
                   classes?.inputExtensionOpen,
                   popperPlacement.includes("end") &&
-                    clsx(
-                      baseDropdownClasses.inputExtensionLeftPosition,
-                      classes?.inputExtensionLeftPosition
-                    )
+                  clsx(
+                    baseDropdownClasses.inputExtensionLeftPosition,
+                    classes?.inputExtensionLeftPosition
+                  )
                 )}
                 $leftPosition={popperPlacement.includes("end")}
                 $openShadow={false}
@@ -465,7 +466,7 @@ export const HvBaseDropdown = ({
             )}
             <BaseDropdownContext.Provider value={popperMaxSize}>
               <StyledPanel
-                id={setId(elementId, "children-container")}
+                id={useId(elementId)}
                 className={clsx(baseDropdownClasses.panel, classes?.panel)}
               >
                 {children}
@@ -480,15 +481,15 @@ export const HvBaseDropdown = ({
                   baseDropdownClasses.inputExtensionOpenShadow,
                   classes?.inputExtensionOpenShadow,
                   popperPlacement.includes("end") &&
-                    clsx(
-                      baseDropdownClasses.inputExtensionFloatRight,
-                      classes?.inputExtensionFloatRight
-                    ),
+                  clsx(
+                    baseDropdownClasses.inputExtensionFloatRight,
+                    classes?.inputExtensionFloatRight
+                  ),
                   popperPlacement.includes("start") &&
-                    clsx(
-                      baseDropdownClasses.inputExtensionFloatLeft,
-                      classes?.inputExtensionFloatLeft
-                    )
+                  clsx(
+                    baseDropdownClasses.inputExtensionFloatLeft,
+                    classes?.inputExtensionFloatLeft
+                  )
                 )}
                 $leftPosition={false}
                 $openShadow={true}
@@ -501,7 +502,8 @@ export const HvBaseDropdown = ({
       </StyledContainer>
     );
 
-    if (disablePortal) return container;
+    const isBrowser = typeof window !== "undefined";
+    if (!isBrowser || disablePortal) return container;
 
     return createPortal(
       container,
@@ -509,19 +511,21 @@ export const HvBaseDropdown = ({
     );
   })();
 
+  const childrenId = useId(elementId);
+
   return (
     <StyledRoot className={clsx(baseDropdownClasses.root, classes?.root)}>
       <StyledAnchor
         id={id}
         role={ariaRole}
         aria-expanded={!!isOpen}
-        aria-owns={isOpen ? setId(elementId, "children-container") : undefined}
+        aria-owns={isOpen ? childrenId : undefined}
         className={clsx(
           className,
           baseDropdownClasses.anchor,
           classes?.anchor,
           disabled &&
-            clsx(baseDropdownClasses.rootDisabled, classes?.rootDisabled)
+          clsx(baseDropdownClasses.rootDisabled, classes?.rootDisabled)
         )}
         $disabled={disabled}
         {...(!readOnly && {

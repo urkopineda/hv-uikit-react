@@ -12,9 +12,8 @@ import {
   StyledDivider,
 } from "./BulkActions.styles";
 import clsx from "clsx";
-import { setId } from "utils";
 import { theme } from "@hitachivantara/uikit-styles";
-import { useTheme } from "hooks";
+import { useTheme, useId } from "hooks";
 
 export type HvBulkActionsProps = HvBaseProps & {
   /**
@@ -135,6 +134,10 @@ export const HvBulkActions = ({
     </HvTypography>
   );
 
+  const selectId = useId(id, "bulk-actions-select");
+  const pagesId = useId(id, "bulk-actions-select-all");
+  const actionsId = useId(id, "bulk-actions-action");
+
   return (
     <StyledRoot
       id={id}
@@ -157,7 +160,7 @@ export const HvBulkActions = ({
         )}
       >
         <HvCheckBox
-          id={setId(id, "select")}
+          id={selectId}
           className={clsx(classes?.selectAll, bulkActionsClasses.selectAll)}
           checked={numSelected > 0}
           semantic={isSemantic}
@@ -170,7 +173,7 @@ export const HvBulkActions = ({
           <>
             <StyledDivider />
             <HvButton
-              id={setId(id, "pages")}
+              id={pagesId}
               className={clsx(
                 classes?.selectAllPages,
                 bulkActionsClasses.selectAllPages
@@ -188,7 +191,7 @@ export const HvBulkActions = ({
         )}
       </StyledSelectAllContainer>
       <StyledGenericActions
-        id={setId(id, "actions")}
+        id={actionsId}
         classes={{ root: clsx(classes?.actions, bulkActionsClasses.actions) }}
         category={isSemantic ? "semantic" : "secondaryGhost"}
         actions={actions}

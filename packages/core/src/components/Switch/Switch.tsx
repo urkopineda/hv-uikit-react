@@ -1,8 +1,7 @@
 import React, { useCallback } from "react";
 import clsx from "clsx";
 import { SwitchProps as MuiSwitchProps } from "@mui/material";
-import { useControlled, useUniqueId } from "hooks";
-import { setId } from "utils";
+import { useControlled, useId } from "hooks";
 import {
   HvWarningText,
   HvBaseSwitch,
@@ -159,7 +158,12 @@ export const HvSwitch = (props: HvSwitchProps) => {
     ...others
   } = props;
 
-  const elementId = useUniqueId(id, "hvswitch");
+  const elementId = useId(id);
+  const errorId = useId(elementId);
+  const labelId = useId(elementId);
+  const inputId = useId(elementId);
+  const baseElementId = label ? useId(elementId) : useId(id);
+  const warningErrorId = useId(elementId);
 
   const [isChecked, setIsChecked] = useControlled(
     checked,
@@ -205,7 +209,7 @@ export const HvSwitch = (props: HvSwitchProps) => {
   let errorMessageId: string | undefined;
   if (isStateInvalid) {
     errorMessageId = canShowError
-      ? setId(elementId, "error")
+      ? errorId
       : ariaErrorMessage;
   }
 
@@ -221,8 +225,8 @@ export const HvSwitch = (props: HvSwitchProps) => {
     >
       {label && (
         <StyledLabel
-          id={setId(elementId, "label")}
-          htmlFor={setId(elementId, "input")}
+          id={labelId}
+          htmlFor={inputId}
           label={label}
           className={clsx(switchClasses.label, classes?.label)}
           {...labelProps}
@@ -238,7 +242,7 @@ export const HvSwitch = (props: HvSwitchProps) => {
         $invalid={isStateInvalid}
       >
         <HvBaseSwitch
-          id={label ? setId(elementId, "input") : setId(id, "input")}
+          id={baseElementId}
           name={name}
           disabled={disabled}
           readOnly={readOnly}
@@ -259,7 +263,7 @@ export const HvSwitch = (props: HvSwitchProps) => {
       </StyledSwitchContainer>
       {canShowError && (
         <HvWarningText
-          id={setId(elementId, "error")}
+          id={warningErrorId}
           className={clsx(switchClasses.error, classes?.error)}
           disableBorder
           disableAdornment

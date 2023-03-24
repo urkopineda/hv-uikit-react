@@ -4,7 +4,7 @@ import { StyledTypography } from "./Label.styles";
 import { HvBaseProps } from "../../../types";
 import { HvFormElementContext } from "../FormElement";
 import { findDescriptors } from "../FormElement/utils/FormUtils";
-import { setId } from "utils";
+import { useId } from "hooks";
 import labelClasses, { HvLabelClasses } from "./labelClasses";
 
 export type HvLabelProps = HvBaseProps & {
@@ -40,23 +40,23 @@ export const HvLabel = ({
   const localDisabled = disabled || elementDisabled;
   const localRequired = required || elementRequired;
 
-  const localId = id ?? setId(elementId, "label");
+  const labelId = id ?? useId(elementId, "label");
 
   const forId = htmlForProp || findDescriptors(children)?.input?.[0]?.id;
 
   return (
     <>
       <StyledTypography
-        id={localId}
+        id={labelId}
         className={clsx(
           className,
           labelClasses.root,
           classes?.root,
           localDisabled &&
-            clsx(labelClasses.labelDisabled, classes?.labelDisabled),
+          clsx(labelClasses.labelDisabled, classes?.labelDisabled),
           children &&
-            label &&
-            clsx(labelClasses.childGutter, classes?.childGutter)
+          label &&
+          clsx(labelClasses.childGutter, classes?.childGutter)
         )}
         variant="label"
         component="label"

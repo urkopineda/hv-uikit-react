@@ -1,5 +1,4 @@
-import { useLabels } from "hooks";
-import { setId } from "utils";
+import { useLabels, useId } from "hooks";
 import { HvBaseProps } from "../../types";
 import { HvDropZone, HvDropZoneLabels } from "./DropZone";
 import { HvFileData, HvFileRemovedEvent, HvFilesAddedEvent } from "./File";
@@ -94,7 +93,7 @@ export const HvFileUploader = ({
   return (
     <div id={id} className={className} {...others}>
       <HvDropZone
-        id={setId(id, "dropzone")}
+        id={useId(id, "fileuploader-dropzone")}
         labels={labels}
         multiple={multiple}
         disabled={disabled}
@@ -105,7 +104,7 @@ export const HvFileUploader = ({
         hideLabels={hideLabels}
       />
       <HvFileList
-        id={setId(id, "filelist")}
+        id={useId(id, "fileuploader-filelist")}
         list={fileList}
         onFileRemoved={onFileRemoved}
         removeFileButtonLabel={labels?.removeFileButtonLabel}

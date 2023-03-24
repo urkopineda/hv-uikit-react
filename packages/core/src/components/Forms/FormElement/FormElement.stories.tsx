@@ -11,7 +11,7 @@ import {
   HvAdornment,
   HvFormStatus,
 } from "components";
-import { setId } from "utils";
+import { useId } from "hooks";
 
 const meta: Meta<typeof HvFormElement> = {
   title: "Guides/Forms/Form Element",
@@ -71,7 +71,7 @@ export const Main: StoryObj<HvFormElementProps> = {
     const onBlurHandler = (event) => {
       if (
         event.relatedTarget === null ||
-        event?.relatedTarget?.id !== setId(inputId, "clear")
+        event?.relatedTarget?.id !== useId(inputId, "clear")
       ) {
         setElement(event.target.value);
         setShowCloseAdornment(false);
@@ -108,7 +108,7 @@ export const Main: StoryObj<HvFormElementProps> = {
             endAdornment={
               <>
                 <HvAdornment
-                  id={setId(inputId, "clear")}
+                  id={useId(inputId, "clear")}
                   isVisible={showCloseAdornment}
                   onClick={() => {
                     setElement("");

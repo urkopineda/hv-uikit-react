@@ -9,7 +9,7 @@ import {
   StyledLabelContainer,
   StyledWarningText,
 } from "./TextArea.styles";
-import { useControlled, useUniqueId } from "hooks";
+import { useControlled, useId } from "hooks";
 import validationStates, {
   isInvalid,
 } from "components/Forms/FormElement/validationStates";
@@ -24,7 +24,6 @@ import {
   validateInput,
   validationTypes,
 } from "../BaseInput/validations";
-import { setId } from "utils";
 import { isNil } from "lodash";
 import { HvValidationMessages } from "types/forms";
 import textAreaClasses, { HvTextAreaClasses } from "./textAreaClasses";
@@ -180,7 +179,7 @@ export const HvTextArea = ({
   onFocus,
   ...others
 }: HvTextAreaProps) => {
-  const elementId = useUniqueId(id, "hvtextarea");
+  const elementId = useId(id);
 
   // Signals that the user has manually edited the input value
   const isDirty = useRef<boolean>(false);
@@ -388,12 +387,21 @@ export const HvTextArea = ({
           inputProps
         )));
 
-  let errorMessageId;
+  let errorMessageId = useId(elementId, "textarea-error-message");
   if (isStateInvalid) {
     errorMessageId = canShowError
-      ? setId(elementId, "error")
+      ? errorMessageId
       : ariaErrorMessage;
   }
+
+  const labelId = useId(elementId);
+  const inputId = useId(elementId);
+  const descriptionid = useId(elementId);
+  const charcounterId = useId(elementId);
+  const baseInputId = hasLabel ? useId(elementId) : useId(id)
+  const baseInputDescId = useId(elementId)
+  const baseInputCountId = useId(elementId)
+  const warningErrorId = useId(elementId);
 
   return (
     <StyledFormElement
@@ -424,8 +432,8 @@ export const HvTextArea = ({
           {hasLabel && (
             <StyledLabel
               className={clsx(textAreaClasses.label, classes?.label)}
-              id={setId(id, "label")}
-              htmlFor={setId(elementId, "input")}
+              id={labelId}
+              htmlFor={inputId}
               label={label}
             />
           )}
@@ -436,7 +444,7 @@ export const HvTextArea = ({
                 textAreaClasses.description,
                 classes?.description
               )}
-              id={setId(elementId, "description")}
+              id={descriptionid}
             >
               {description}
             </StyledInfoMessage>
@@ -446,7 +454,7 @@ export const HvTextArea = ({
 
       {hasCounter && (
         <StyledCharCounter
-          id={setId(elementId, "charCounter")}
+          id={charcounterId}
           className={clsx(
             textAreaClasses.characterCounter,
             classes?.characterCounter
@@ -467,7 +475,7 @@ export const HvTextArea = ({
             classes?.inputResizable
           ),
         }}
-        id={hasLabel ? setId(elementId, "input") : setId(id, "input")}
+        id={baseInputId}
         name={name}
         value={value}
         required={required}
@@ -489,9 +497,9 @@ export const HvTextArea = ({
           "aria-describedby":
             ariaDescribedBy != null
               ? ariaDescribedBy
-              : (description && setId(elementId, "description")) || undefined,
+              : (description && baseInputDescId) || undefined,
           "aria-controls": maxCharQuantity
-            ? setId(elementId, "charCounter")
+            ? baseInputCountId
             : undefined,
           ...inputProps,
         }}
@@ -502,7 +510,7 @@ export const HvTextArea = ({
 
       {canShowError && (
         <StyledWarningText
-          id={setId(elementId, "error")}
+          id={warningErrorId}
           className={clsx(textAreaClasses.error, classes?.error)}
           disableBorder
         >

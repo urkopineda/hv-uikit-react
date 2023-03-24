@@ -1,6 +1,6 @@
 import { Close } from "@hitachivantara/uikit-react-icons";
 import clsx from "clsx";
-import { setId } from "utils";
+import { useId } from "hooks";
 import fileClasses, { HvFileClasses } from "./fileClasses";
 import { HvTypography } from "components";
 import { convertUnits } from "../utils";
@@ -203,7 +203,7 @@ export const HvFile = ({
       )}
 
       <StyledIconButton
-        id={setId(id, "remove-button")}
+        id={useId(id, "file-remove-button")}
         aria-label={removeFileButtonLabel}
         className={clsx(classes?.removeButton, fileClasses.removeButton)}
         onClick={() => onFileRemoved?.(data)}

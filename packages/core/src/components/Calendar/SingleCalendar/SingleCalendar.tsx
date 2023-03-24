@@ -7,7 +7,8 @@ import { isRange, isDate, getWeekdayNamesList } from "../utils";
 import { generateCalendarModel } from "../model";
 import { HvComposedNavigation, HvMonthSelector } from "../CalendarNavigation";
 import { DateRangeProp, VisibilitySelectorActions } from "../Calendar";
-import { setId, keyboardCodes, isKeypress } from "utils";
+import { keyboardCodes, isKeypress } from "utils";
+import { useId } from "hooks";
 import {
   StyledCalendarContainer,
   StyledCalendarGrid,
@@ -153,7 +154,7 @@ export const HvSingleCalendar = ({
         )}
       >
         <HvCalendarHeader
-          id={setId(id, "header")}
+          id={useId(id, "calendar-header")}
           locale={locale}
           onChange={handleInputChange}
           showEndDate={showEndDate && !isDateSelectionMode}

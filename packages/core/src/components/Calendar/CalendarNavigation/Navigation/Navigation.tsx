@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { isKeypress, keyboardCodes, setId } from "utils";
+import { isKeypress, keyboardCodes } from "utils";
+import { useId } from "hooks";
 import { HvTypography } from "components";
 import { HvBaseProps } from "../../../../types";
 import {
@@ -35,7 +36,7 @@ export const Navigation = ({
   return (
     <StyledRoot className={clsx(navigationClasses.root, classes?.root)}>
       <StyledDropLeftIcon
-        id={setId(id, "left")}
+        id={useId(id, "nav-left")}
         className={clsx(
           navigationClasses.icon,
           classes?.icon,
@@ -67,11 +68,11 @@ export const Navigation = ({
         }
         tabIndex={onTextClick ? 0 : -1}
       >
-        <HvTypography variant="normalText">{navigationText}</HvTypography>
+        <HvTypography variant="body">{navigationText}</HvTypography>
       </StyledText>
 
       <StyledDropRightIcon
-        id={setId(id, "right")}
+        id={useId(id, "nav-right")}
         className={`${clsx(navigationClasses.icon, classes?.icon)} ${
           isNextEnabled
             ? ""

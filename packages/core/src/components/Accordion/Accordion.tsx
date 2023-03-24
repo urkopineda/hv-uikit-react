@@ -5,10 +5,9 @@ import React, {
   HTMLAttributes,
 } from "react";
 import clsx from "clsx";
-import { useControlled } from "hooks";
+import { useControlled, useId } from "hooks";
 import { DropDownXS, DropUpXS } from "@hitachivantara/uikit-react-icons";
 import { HvBaseProps } from "../../types";
-import { setId } from "utils";
 import { StyledContainer, StyledLabel, StyledRoot } from "./Accordion.styles";
 import accordionClasses, { HvAccordionClasses } from "./accordionClasses";
 
@@ -125,8 +124,9 @@ export const HvAccordion = ({
     [handleAction]
   );
 
-  const accordionHeaderId = setId(id, "button");
-  const accordionContainer = setId(id, "container");
+  const accordionHeaderId = useId(id, "accordion-button");
+  const accordionContainer = useId(id, "accordion-container");
+
   const accordionHeader = useMemo(() => {
     const color = (disabled && ["atmo5"]) || undefined;
     const accordionButton = (

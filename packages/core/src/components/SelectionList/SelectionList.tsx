@@ -11,10 +11,9 @@ import {
 import {
   isKeypress,
   keyboardCodes,
-  setId,
   multiSelectionEventHandler,
-} from "../../utils";
-import { useControlled, useUniqueId } from "../../hooks";
+} from "utils";
+import { useControlled, useId } from "hooks";
 import { HvFormStatus } from "../Forms/FormElement";
 import selectionListClasses, {
   HvSelectionListClasses,
@@ -126,15 +125,15 @@ export const HvSelectionList = ({
   singleSelectionToggle = false,
   ...others
 }: HvSelectionListProps) => {
-  const elementId = useUniqueId(id, "hvselectionlist");
+  const elementId = useId(id);
 
   const [value, setValue] = useControlled(
     valueProp,
     defaultValue !== undefined
       ? defaultValue
       : // when uncontrolled and no default value is given,
-        // extract the initial selected values from the children own state
-        () => getValueFromSelectedChildren(children, multiple)
+      // extract the initial selected values from the children own state
+      () => getValueFromSelectedChildren(children, multiple)
   );
 
   const [validationState, setValidationState] = useControlled(
@@ -277,10 +276,10 @@ export const HvSelectionList = ({
       (status === undefined && required));
 
   const errorMessageId = canShowError
-    ? setId(elementId, "error")
+    ? useId(elementId)
     : ariaErrorMessage;
 
-  const listId = (label && setId(elementId, "listbox")) || "";
+  const listId = (label && useId(elementId)) || "";
 
   return (
     <StyledFormElement
@@ -294,14 +293,14 @@ export const HvSelectionList = ({
     >
       {label && (
         <StyledLabel
-          id={setId(elementId, "label")}
+          id={useId(elementId)}
           label={label}
           className={clsx(selectionListClasses.label, classes?.label)}
         />
       )}
       {description && (
         <StyledInfoMessage
-          id={setId(elementId, "description")}
+          id={useId(elementId)}
           className={clsx(
             selectionListClasses.description,
             classes?.description
@@ -319,7 +318,7 @@ export const HvSelectionList = ({
         aria-multiselectable={multiple || undefined}
         aria-label={ariaLabel}
         aria-labelledby={
-          [label && setId(elementId, "label"), ariaLabelledBy]
+          [label && useId(elementId), ariaLabelledBy]
             .join(" ")
             .trim() || undefined
         }
@@ -328,7 +327,7 @@ export const HvSelectionList = ({
           validationState === "invalid" ? errorMessageId : undefined
         }
         aria-describedby={
-          [description && setId(elementId, "description"), ariaDescribedBy]
+          [description && useId(elementId), ariaDescribedBy]
             .join(" ")
             .trim() || undefined
         }
@@ -336,11 +335,11 @@ export const HvSelectionList = ({
           classes?.listbox,
           selectionListClasses.listbox,
           orientation === "vertical" &&
-            clsx(selectionListClasses.vertical, classes?.vertical),
+          clsx(selectionListClasses.vertical, classes?.vertical),
           orientation === "horizontal" &&
-            clsx(selectionListClasses.horizontal, classes?.horizontal),
+          clsx(selectionListClasses.horizontal, classes?.horizontal),
           validationState === "invalid" &&
-            clsx(selectionListClasses.invalid, classes?.invalid)
+          clsx(selectionListClasses.invalid, classes?.invalid)
         )}
         ref={listContainer}
         $orientation={orientation}
@@ -352,7 +351,7 @@ export const HvSelectionList = ({
 
       {canShowError && (
         <StyledError
-          id={setId(elementId, "error")}
+          id={useId(elementId)}
           disableBorder
           className={clsx(selectionListClasses.error, classes?.error)}
         >

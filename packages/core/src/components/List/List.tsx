@@ -14,7 +14,8 @@ import listClasses, { HvListClasses } from "./listClasses";
 import useSelectableList from "./useSelectableList";
 import { parseList } from "./utils";
 import { HvListContainer, HvTypography } from "components";
-import { setId, wrapperTooltip } from "utils";
+import { wrapperTooltip } from "utils";
+import { useId } from "hooks";
 
 export type HvListValue = {
   id?: string | number;
@@ -197,7 +198,7 @@ export const HvList = ({
 
     return (
       <StyledSelectAllCheckBox
-        id={setId(id, "select-all")}
+        id={useId(id)}
         label={selectionLabel}
         onChange={handleSelectAll}
         className={clsx(
@@ -231,7 +232,7 @@ export const HvList = ({
       const Selection = wrapperTooltip(
         hasTooltips,
         <StyledMultiSelectCheckBox
-          id={setId(itemId, "selector")}
+          id={useId(itemId)}
           label={item.label}
           checked={item.selected}
           disabled={item.disabled}
@@ -258,7 +259,7 @@ export const HvList = ({
       const Selection = wrapperTooltip(
         hasTooltips,
         <StyledSingleSelectRadio
-          id={setId(itemId, "selector")}
+          id={useId(selectedItemIndex)}
           label={item.label}
           checked={item.selected}
           disabled={item.disabled}
@@ -279,7 +280,7 @@ export const HvList = ({
   };
 
   const renderListItem = (item, i, otherProps = {}) => {
-    const itemId = setId(id, "item", i);
+    const itemId = useId(id);
     const selected = item.selected || false;
 
     let startAdornment = null;

@@ -90,6 +90,7 @@ export const HvTooltip = forwardRef((props: HvTooltipProps, ref) => {
   } = props;
 
   const { rootId } = useTheme();
+  const isBrowser = typeof window !== "undefined";
 
   return (
     <MuiTooltip
@@ -109,7 +110,8 @@ export const HvTooltip = forwardRef((props: HvTooltipProps, ref) => {
       title={title}
       PopperProps={{
         sx: popperSx(useSingle),
-        container: document.getElementById(rootId || "") || document.body,
+        container: isBrowser
+          ? document.getElementById(rootId || "") || document.body : null
       }}
       {...others}
     >

@@ -5,7 +5,7 @@ import { rightControlClasses, HvRightControlClasses } from ".";
 import { HvDropdownProps, HvListValue } from "components";
 import { useContext, useState } from "react";
 import { HvControlsContext } from "../context/ControlsContext";
-import { setId } from "utils";
+import { useId } from "hooks";
 
 export type HvRightListControls = HvListValue & {
   accessor: string;
@@ -60,7 +60,7 @@ export const HvRightControl = ({
     >
       {!hideSortBy && (
         <StyledDropdown
-          id={setId(id, "sort-by-dropdown")}
+          id={useId(id, "controls-sort-dropdown")}
           values={dropDownValues}
           className={clsx(
             rightControlClasses.sortDropdown,

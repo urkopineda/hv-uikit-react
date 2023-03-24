@@ -1,7 +1,6 @@
 import clsx from "clsx";
-import { useControlled, useUniqueId } from "hooks";
+import { useControlled, useId } from "hooks";
 import { useCallback, useState } from "react";
-import { setId } from "utils";
 import { HvBaseCheckBoxProps } from "../BaseCheckBox";
 import { HvLabelProps, HvFormStatus, HvWarningText, isInvalid } from "../Forms";
 import {
@@ -81,7 +80,7 @@ export const HvCheckBox = ({
   onBlur,
   ...others
 }: HvCheckBoxProps) => {
-  const elementId = useUniqueId(id, "hvcheckbox");
+  const elementId = useId(id);
 
   const [focusVisible, setFocusVisible] = useState<boolean>(false);
 
@@ -161,13 +160,13 @@ export const HvCheckBox = ({
   let errorMessageId;
   if (isStateInvalid) {
     errorMessageId = canShowError
-      ? setId(elementId, "error")
+      ? useId(elementId)
       : ariaErrorMessage;
   }
 
   const checkbox = (
     <StyledBaseCheckBox
-      id={hasLabel ? setId(elementId, "input") : setId(id, "input")}
+      id={hasLabel ? useId(elementId) : useId(id)}
       name={name}
       className={clsx(
         checkBoxClasses.checkbox,
@@ -229,8 +228,8 @@ export const HvCheckBox = ({
         >
           {checkbox}
           <StyledLabel
-            id={setId(elementId, "label")}
-            htmlFor={setId(elementId, "input")}
+            id={useId(elementId)}
+            htmlFor={useId(elementId)}
             label={label}
             className={clsx(checkBoxClasses.label, classes?.label)}
             $disabled={disabled}
@@ -242,7 +241,7 @@ export const HvCheckBox = ({
       )}
       {canShowError && (
         <HvWarningText
-          id={setId(elementId, "error")}
+          id={useId(elementId)}
           disableAdornment={!hasLabel}
           hideText={!hasLabel}
           disableBorder

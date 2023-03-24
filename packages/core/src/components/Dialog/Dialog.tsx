@@ -7,11 +7,11 @@ import { isNil } from "lodash";
 import { HvBaseProps } from "../../types";
 import { StyledBackdrop, StyledClose, StyledPaper } from "./Dialog.styles";
 import { getFocusableList } from "utils/focusableElementFinder";
-import { isKeypress, keyboardCodes, setId } from "utils";
+import { isKeypress, keyboardCodes } from "utils";
 import { withTooltip } from "hocs";
 import dialogClasses, { HvDialogClasses } from "./dialogClasses";
 import { css } from "utils/emotion";
-import { useTheme } from "hooks";
+import { useTheme, useId } from "hooks";
 
 export type HvDialogProps = Omit<MuiDialogProps, "fullScreen" | "classes"> &
   HvBaseProps & {
@@ -184,7 +184,7 @@ export const HvDialog = ({
       {...others}
     >
       <StyledClose
-        id={setId(id, "close")}
+        id={useId(id, "dialog-close")}
         className={clsx(dialogClasses.closeButton, classes?.closeButton)}
         variant="secondaryGhost"
         onClick={(event) => wrappedClose(event, true, undefined)}

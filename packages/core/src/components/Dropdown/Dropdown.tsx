@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { PopperProps } from "@mui/material";
 import clsx from "clsx";
-import { setId } from "utils";
-import { useLabels, useUniqueId, useControlled } from "hooks";
+import { useLabels, useId, useControlled } from "hooks";
 import { isInvalid } from "../Forms/FormElement/validationStates";
 import { getSelected, getSelectionLabel } from "./utils";
 import dropdownClasses, { HvDropdownClasses } from "./dropdownClasses";
@@ -309,7 +308,7 @@ export const HvDropdown = (props: HvDropdownProps) => {
 
   const labels = useLabels(DEFAULT_LABELS, labelsProp);
 
-  const elementId = useUniqueId(id, "hvdropdown");
+  const elementId = useId(id);
 
   const [validationState, setValidationState] = useControlled(
     status,
@@ -454,7 +453,7 @@ export const HvDropdown = (props: HvDropdownProps) => {
           dropdownClasses?.placeholder,
           classes?.placeholder,
           disabled &&
-            clsx(dropdownClasses?.selectionDisabled, classes?.selectionDisabled)
+          clsx(dropdownClasses?.selectionDisabled, classes?.selectionDisabled)
         )}
       >
         {selectionLabel.selected}
@@ -467,7 +466,7 @@ export const HvDropdown = (props: HvDropdownProps) => {
           dropdownClasses?.placeholder,
           classes?.placeholder,
           disabled &&
-            clsx(dropdownClasses?.selectionDisabled, classes?.selectionDisabled)
+          clsx(dropdownClasses?.selectionDisabled, classes?.selectionDisabled)
         )}
         variant="body"
       >
@@ -494,7 +493,7 @@ export const HvDropdown = (props: HvDropdownProps) => {
   let errorMessageId;
   if (isStateInvalid) {
     errorMessageId = canShowError
-      ? setId(elementId, "error")
+      ? useId(elementId)
       : ariaErrorMessage;
   }
 
@@ -519,7 +518,7 @@ export const HvDropdown = (props: HvDropdownProps) => {
         >
           {hasLabel && (
             <StyledLabel
-              id={setId(elementId, "label")}
+              id={useId(elementId)}
               label={label}
               className={clsx(classes?.label, dropdownClasses.label)}
             />
@@ -527,7 +526,7 @@ export const HvDropdown = (props: HvDropdownProps) => {
 
           {hasDescription && (
             <HvInfoMessage
-              id={setId(elementId, "description")}
+              id={useId(elementId)}
               className={clsx(
                 classes?.description,
                 dropdownClasses.description
@@ -539,7 +538,7 @@ export const HvDropdown = (props: HvDropdownProps) => {
         </StyledLabelContainer>
       )}
       <StyledDropdown
-        id={setId(id, "dropdown")}
+        id={useId(id)}
         classes={{
           root: clsx(classes?.dropdown, dropdownClasses.dropdown),
           arrow: clsx(classes?.arrow, dropdownClasses.arrow),
@@ -547,10 +546,10 @@ export const HvDropdown = (props: HvDropdownProps) => {
             dropdownClasses.dropdownHeader,
             classes?.dropdownHeader,
             isStateInvalid &&
-              clsx(
-                dropdownClasses.dropdownHeaderInvalid,
-                classes?.dropdownHeaderInvalid
-              )
+            clsx(
+              dropdownClasses.dropdownHeaderInvalid,
+              classes?.dropdownHeaderInvalid
+            )
           ),
           headerOpen: clsx(
             dropdownClasses.dropdownHeaderOpen,
@@ -573,14 +572,14 @@ export const HvDropdown = (props: HvDropdownProps) => {
         variableWidth={variableWidth}
         aria-label={ariaLabel}
         aria-labelledby={
-          [label && setId(elementId, "label"), ariaLabelledBy]
+          [label && useId(elementId), ariaLabelledBy]
             .join(" ")
             .trim() || undefined
         }
         aria-invalid={isStateInvalid ? true : undefined}
         aria-errormessage={errorMessageId}
         aria-describedby={
-          [description && setId(elementId, "description"), ariaDescribedBy]
+          [description && useId(elementId), ariaDescribedBy]
             .join(" ")
             .trim() || undefined
         }
@@ -590,7 +589,7 @@ export const HvDropdown = (props: HvDropdownProps) => {
         {...baseDropdownProps}
       >
         <HvDropdownList
-          id={setId(elementId, "values")}
+          id={useId(elementId)}
           classes={{
             rootList: clsx(dropdownClasses.rootList, classes?.rootList),
             dropdownListContainer: clsx(
@@ -607,7 +606,7 @@ export const HvDropdown = (props: HvDropdownProps) => {
           notifyChangesOnFirstRender={notifyChangesOnFirstRender}
           hasTooltips={hasTooltips}
           singleSelectionToggle={singleSelectionToggle}
-          aria-labelledby={hasLabel ? setId(elementId, "label") : undefined}
+          aria-labelledby={hasLabel ? useId(elementId) : undefined}
           height={height}
           maxHeight={maxHeight}
           virtualized={virtualized}
@@ -616,7 +615,7 @@ export const HvDropdown = (props: HvDropdownProps) => {
       </StyledDropdown>
       {canShowError && (
         <HvWarningText
-          id={setId(elementId, "error")}
+          id={useId(elementId)}
           disableBorder
           className={clsx(dropdownClasses.error, classes?.error)}
         >

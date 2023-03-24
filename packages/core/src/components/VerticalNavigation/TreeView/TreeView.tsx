@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
-import { useControlled, useForkRef, useUniqueId } from "hooks";
+import { useControlled, useForkRef, useId } from "hooks";
 import { HvVerticalNavigationTreeClasses } from "../Navigation/navigationClasses";
 import {
   TreeViewControlContext,
@@ -62,7 +62,7 @@ export const HvVerticalNavigationTreeView = forwardRef(
     const treeviewMode = mode === "treeview";
     const multiSelect = selectable && multiSelectProp;
 
-    const treeId = useUniqueId(idProp, "hvtreeview");
+    const treeId = useId(idProp, "treeview");
     const treeRef = useRef<HTMLDivElement>(null);
     const handleRef = useForkRef(treeRef, ref);
 

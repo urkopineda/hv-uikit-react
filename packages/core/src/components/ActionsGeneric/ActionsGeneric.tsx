@@ -1,13 +1,12 @@
 import clsx from "clsx";
 import { HvButtonSize, HvButtonVariant, HvDropDownMenu } from "components";
-import { setId } from "utils";
 import React, { isValidElement } from "react";
 import { HvBaseProps } from "../../types";
 import { actionsGenericClasses, HvActionsGenericClasses } from ".";
 import { MoreOptionsVertical } from "@hitachivantara/uikit-react-icons";
 import { theme } from "@hitachivantara/uikit-styles";
 import { StyledButton, StyledRoot } from "./ActionsGeneric.styles";
-import { useTheme } from "hooks";
+import { useTheme, useId } from "hooks";
 
 export type HvActionGeneric = {
   id: string;
@@ -49,12 +48,13 @@ export const HvActionsGeneric = ({
   ...others
 }: HvActionsGenericProps) => {
   const { activeTheme, selectedMode } = useTheme();
-
+  let actionId = useId(id, "actions-generic");
+  
   if (!Array.isArray(actions)) return isValidElement(actions) ? actions : null;
 
   const renderButton = (action: HvActionGeneric, idx: number) => {
     const { disabled: actDisabled, id: actId, icon, label, ...other } = action;
-    const actionId = setId(id, idx, "action", action.id);
+    actionId = `${actionId}-idx`;
 
     const renderedIcon = isValidElement(icon)
       ? icon
@@ -94,7 +94,7 @@ export const HvActionsGeneric = ({
       <>
         {actsVisible.map((action, idx) => renderButton(action, idx))}
         <HvDropDownMenu
-          id={setId(id, "menu")}
+          id={useId(id, "actions-generic-dropdown")}
           disabled={disabled}
           category={category}
           classes={{

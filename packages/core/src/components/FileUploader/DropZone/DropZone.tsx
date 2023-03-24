@@ -17,7 +17,8 @@ import {
   StyledSelectedFilesText,
 } from "./DropZone.styles";
 import clsx from "clsx";
-import { isKeypress, keyboardCodes, setId } from "utils";
+import { isKeypress, keyboardCodes } from "utils";
+import { useId } from "hooks";
 import { convertUnits } from "../utils";
 import withId from "../../../hocs/withId";
 
@@ -167,8 +168,8 @@ export const HvDropZone = withId(
             aria-label="File Dropzone"
           >
             <StyledLabel
-              id={setId(id, "input-file-label")}
-              htmlFor={setId(id, "input-file")}
+              id={useId(id, "dropzone-file-label")}
+              htmlFor={useId(id, "dropzone-file-input")}
               label={labels?.dropzone}
               className={clsx(
                 classes?.dropZoneLabel,
@@ -178,7 +179,7 @@ export const HvDropZone = withId(
             />
             <StyledInfoMessage
               $disabled={disabled}
-              id={setId(id, "description")}
+              id={useId(id, "dropzone-description")}
             >
               {Number.isInteger(maxFileSize) &&
                 `${labels?.sizeWarning} ${convertUnits(maxFileSize)}`}
@@ -190,16 +191,16 @@ export const HvDropZone = withId(
           </StyledDropZoneLabelsGroup>
         )}
         <StyledDropZoneContainer
-          id={setId(id, "button")}
+          id={useId(id, "dropzone-container")}
           className={clsx(
             classes?.dropZoneContainer,
             dropZoneClasses.dropZoneContainer,
             dragState && clsx(classes?.dragAction, dropZoneClasses.dragAction),
             disabled &&
-              clsx(
-                classes?.dropZoneContainerDisabled,
-                dropZoneClasses.dropZoneContainerDisabled
-              )
+            clsx(
+              classes?.dropZoneContainerDisabled,
+              dropZoneClasses.dropZoneContainerDisabled
+            )
           )}
           $drag={dragState}
           $disabled={disabled}
@@ -238,7 +239,7 @@ export const HvDropZone = withId(
           }}
         >
           <StyledInput
-            id={setId(id, "input-file")}
+            id={useId(id, "dropzone-file-input")}
             tabIndex={-1}
             className={clsx(classes?.inputArea, dropZoneClasses.inputArea)}
             type="file"

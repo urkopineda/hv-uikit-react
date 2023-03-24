@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { SnackbarContentProps as MuiSnackbarContentProps } from "@mui/material/SnackbarContent";
-import { iconVariant, setId } from "utils";
+import { iconVariant } from "utils";
+import { useId } from "hooks";
 import { forwardRef, isValidElement } from "react";
 import { HvBaseProps } from "../../../types";
 import { HvSnackbarVariant } from "../Snackbar";
@@ -82,7 +83,7 @@ const HvSnackbarContentWrapper = forwardRef<
         )}
         message={
           <StyledMessageSpan
-            id={setId(id, "message")}
+            id={useId(id)}
             className={clsx(
               snackbarContentWrapperClasses.messageSpan,
               classes?.messageSpan
@@ -108,7 +109,7 @@ const HvSnackbarContentWrapper = forwardRef<
             </StyledMessageText>
             {action && (
               <StyledAction
-                id={setId(id, "action")}
+                id={useId(id)}
                 className={clsx(
                   snackbarContentWrapperClasses.action,
                   classes?.action

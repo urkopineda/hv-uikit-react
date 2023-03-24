@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
-import { setId } from "utils";
+import { useId } from "hooks";
 import {
   HvActionBar,
   HvButton,
@@ -160,30 +160,30 @@ export const HvDropdownList = ({
   const handleSearch = (str: string) => {
     const results = list
       ? list.filter(
-          ({
-            searchValue,
-            label,
-            value,
-          }: {
-            searchValue?: any;
-            label?: any;
-            value?: any;
-          }) => {
-            let stringValue = "";
-            if (
-              typeof searchValue === "string" ||
-              searchValue instanceof String
-            ) {
-              stringValue = searchValue.toLowerCase();
-            } else if (typeof label === "string" || label instanceof String) {
-              stringValue = label.toLowerCase();
-            } else if (typeof value === "string" || value instanceof String) {
-              stringValue = value.toLowerCase();
-            }
-
-            return stringValue.indexOf(str.toLowerCase()) >= 0;
+        ({
+          searchValue,
+          label,
+          value,
+        }: {
+          searchValue?: any;
+          label?: any;
+          value?: any;
+        }) => {
+          let stringValue = "";
+          if (
+            typeof searchValue === "string" ||
+            searchValue instanceof String
+          ) {
+            stringValue = searchValue.toLowerCase();
+          } else if (typeof label === "string" || label instanceof String) {
+            stringValue = label.toLowerCase();
+          } else if (typeof value === "string" || value instanceof String) {
+            stringValue = value.toLowerCase();
           }
-        )
+
+          return stringValue.indexOf(str.toLowerCase()) >= 0;
+        }
+      )
       : null;
 
     if (!isNil(results)) {
@@ -211,7 +211,7 @@ export const HvDropdownList = ({
       )}
     >
       <HvInput
-        id={setId(id, "search")}
+        id={useId(id, "list-search")}
         type="search"
         value={searchStr}
         placeholder={labels?.searchPlaceholder}
@@ -264,7 +264,7 @@ export const HvDropdownList = ({
         )}
       >
         <HvCheckBox
-          id={setId(id, "select-all")}
+          id={useId(id, "list-select-all")}
           label={defaultLabel}
           onChange={() => handleSelectAll()}
           classes={{
@@ -299,16 +299,16 @@ export const HvDropdownList = ({
     const applyLabel = labels?.applyLabel;
     const cancelLabel = labels?.cancelLabel;
     return (
-      <HvActionBar id={setId(id, "actions")}>
+      <HvActionBar id={useId(id, "list-actions")}>
         <HvButton
-          id={setId(id, "actions-apply")}
+          id={useId(id, "list-actions-apply")}
           onClick={() => onChange(cleanHidden(list), true, true, true)}
           variant="primaryGhost"
         >
           {applyLabel}
         </HvButton>
         <HvButton
-          id={setId(id, "actions-cancel")}
+          id={useId(id, "list-actions-cancel")}
           onClick={onCancel}
           variant="primaryGhost"
         >
@@ -340,7 +340,7 @@ export const HvDropdownList = ({
         {showList && multiSelect && renderSelectAll()}
         {showList && (
           <StyledList
-            id={setId(id, "list")}
+            id={useId(id)}
             classes={{
               root: clsx(
                 dropdownListClasses.dropdownListContainer,

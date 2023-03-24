@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useControlled } from "hooks";
+import { useControlled, useId } from "hooks";
 import { HvBaseProps } from "../../types";
 import {
   StyledBaseDropDown,
@@ -9,7 +9,7 @@ import {
 import dropDownMenuClasses, {
   HvDropDownMenuClasses,
 } from "./dropDownMenuClasses";
-import { isKeypress, keyboardCodes, outlineStyles, setId } from "utils";
+import { isKeypress, keyboardCodes, outlineStyles } from "utils";
 import getPrevNextFocus from "utils/focusableElementFinder";
 import { MoreOptionsVertical } from "@hitachivantara/uikit-react-icons";
 import { HvButtonVariant, HvList, HvListValue } from "components";
@@ -77,9 +77,8 @@ const HvDropDownMenu = ({
   ...others
 }: HvDropDownMenuProps) => {
   const [open, setOpen] = useControlled(expanded, Boolean(defaultExpanded));
-  const focusNodes = getPrevNextFocus(setId(id, "icon-button"));
-
-  const listId = setId(id, "list");
+  const focusNodes = getPrevNextFocus(useId(id, "dropdown-focus"));
+  const listId = useId(id, "dropdown-list");
 
   const handleClose = (event) => {
     // this will only run if uncontrolled
@@ -90,7 +89,7 @@ const HvDropDownMenu = ({
   // If the ESCAPE key is pressed inside the list, the close handler must be called.
   const handleKeyDown = (event) => {
     if (isKeypress(event, keyboardCodes.Tab)) {
-      const node = event.shiftKey ? focusNodes.prevFocus : focusNodes.nextFocus;
+      const node = event.shiftKey ? focusNodes?.prevFocus : focusNodes?.nextFocus;
       if (node) setTimeout(() => node.focus(), 0);
       handleClose(event);
     }
@@ -105,7 +104,7 @@ const HvDropDownMenu = ({
     <StyledButton
       icon
       variant={category}
-      id={setId(id, "icon-button")}
+      id={useId(id, "dropdown-icon")}
       className={clsx(
         dropDownMenuClasses.icon,
         classes?.icon,

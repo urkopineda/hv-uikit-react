@@ -16,19 +16,23 @@ const getFocusableList = (node) =>
  * @returns {{prevFocus: *, nextFocus: *}}
  */
 const getPrevNextFocus = (nodeId) => {
-  const nodes = getFocusableList(document);
+  const isBrowser = typeof window !== "undefined";
 
-  const nbNodes = nodes.length;
-  let index = 0;
-  for (; index < nbNodes; index += 1) {
-    if (nodes[index].id === nodeId) {
-      break;
+  if (isBrowser) {
+    const nodes = getFocusableList(document);
+
+    const nbNodes = nodes.length;
+    let index = 0;
+    for (; index < nbNodes; index += 1) {
+      if (nodes[index].id === nodeId) {
+        break;
+      }
     }
+    return {
+      nextFocus: nodes[index + 1 > nbNodes - 1 ? 0 : index + 1],
+      prevFocus: nodes[index - 1 < 0 ? nbNodes - 1 : index - 1],
+    };
   }
-  return {
-    nextFocus: nodes[index + 1 > nbNodes - 1 ? 0 : index + 1],
-    prevFocus: nodes[index - 1 < 0 ? nbNodes - 1 : index - 1],
-  };
 };
 
 /**

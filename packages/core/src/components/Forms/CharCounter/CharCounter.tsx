@@ -2,7 +2,7 @@ import { useContext } from "react";
 import clsx from "clsx";
 import { HvBaseProps } from "../../../types";
 import { StyledRoot, StyledTypography } from "./CharCounter.styles";
-import { setId } from "../../../utils";
+import { useId } from "hooks";
 import { HvFormElementContext } from "../FormElement";
 import charCounterClasses, { HvCharCounterClasses } from "./charCounterClasses";
 
@@ -40,9 +40,9 @@ export const HvCharCounter = ({
 }: HvCharCounterProps) => {
   const { elementId, elementDisabled } = useContext(HvFormElementContext);
   const localDisabled = disabled || elementDisabled;
-  const localId = id ?? setId(elementId, "counter");
-  const currentId = setId(localId, "currentQuantity");
-  const maxQuantityId = setId(localId, "maxQuantity");
+  const localId = useId(id || elementId);
+  const currentId = useId(localId);
+  const maxQuantityId = useId(localId);
   const isOverloaded = currentCharQuantity > maxCharQuantity;
 
   return (

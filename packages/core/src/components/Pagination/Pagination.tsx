@@ -22,9 +22,9 @@ import {
   StyledPageInfo,
 } from "./Pagination.styles";
 import { paginationClasses, HvPaginationClasses } from ".";
-import { isKeypress, keyboardCodes, setId } from "utils";
+import { isKeypress, keyboardCodes } from "utils";
 import { usePageInput, getSafePage, setColor } from "./utils";
-import { useLabels } from "hooks";
+import { useLabels, useId } from "hooks";
 
 export type HvPaginationLabels = {
   /** The show label. */
@@ -167,7 +167,7 @@ export const HvPagination = ({
       className={clsx(paginationClasses.pageJump, classes?.pageJump)}
     >
       <HvInput
-        id={setId(id, "currentPage")}
+        id={useId(id, "pagination-current")}
         labels={labels}
         inputProps={{
           "aria-label": labels?.paginationInputLabel,
@@ -226,7 +226,7 @@ export const HvPagination = ({
               </StyledPageSizePrev>
             </Hidden>
             <StyledSelect
-              id={setId(id, "pageSize")}
+              id={useId(id, "pagination-size")}
               disabled={pageSize === 0}
               className={clsx(
                 paginationClasses.pageSizeOptionsSelect,
@@ -266,7 +266,7 @@ export const HvPagination = ({
         {...navigationProps}
       >
         <StyledButtonIconTooltip
-          id={setId(id, "firstPage-button")}
+          id={useId(id, "paginations-first")}
           aria-label={labels?.firstPage}
           className={clsx(
             paginationClasses.iconContainer,
@@ -282,7 +282,7 @@ export const HvPagination = ({
           />
         </StyledButtonIconTooltip>
         <StyledButtonIconTooltip
-          id={setId(id, "previousPage-button")}
+          id={useId(id, "pagination-previous")}
           aria-label={labels?.previousPage}
           className={clsx(
             paginationClasses.iconContainer,
@@ -306,12 +306,12 @@ export const HvPagination = ({
             <HvTypography component="span">{`${page + 1}`}</HvTypography>
           )}
           <HvTypography component="span">{`${labels?.pagesSeparator} `}</HvTypography>
-          <HvTypography id={setId(id, "totalPages")} component="span">
+          <HvTypography id={useId(id, "pagination-total")} component="span">
             {pages}
           </HvTypography>
         </StyledPageInfo>
         <StyledButtonIconTooltip
-          id={setId(id, "nextPage-button")}
+          id={useId(id, "pagination-next")}
           aria-label={labels?.nextPage}
           className={clsx(
             paginationClasses.iconContainer,
@@ -327,7 +327,7 @@ export const HvPagination = ({
           />
         </StyledButtonIconTooltip>
         <StyledButtonIconTooltip
-          id={setId(id, "lastPage-button")}
+          id={useId(id, "pagination-last")}
           aria-label={labels?.lastPage}
           className={clsx(
             paginationClasses.iconContainer,

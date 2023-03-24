@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { setId } from "utils";
+import { useId } from "hooks";
 import {
   HvFormElementContext,
   HvFormElementValueContext,
@@ -30,15 +30,17 @@ export const HvCalendar = ({
   const { elementId } = useContext(HvFormElementContext);
   const elementValue = useContext(HvFormElementValueContext);
   const localValue = value ?? elementValue;
-  const localId = id ?? setId(elementId, "single-calendar");
+
   const rangeMode = isRange(localValue);
-  const rightCalendarId = setId(localId, "single-calendar-right");
+  const calendarId = id || elementId;
+  const singleId = useId(calendarId, "calendar-single");
+  const rightCalendarId = useId(calendarId, "calendar-right");
   const clampedMonth =
     visibleMonth && visibleMonth % 13 > 0 ? visibleMonth % 13 : 1;
 
   const singleCalendar = (
     <HvSingleCalendar
-      id={localId}
+      id={singleId}
       locale={locale}
       value={localValue}
       visibleMonth={clampedMonth}
@@ -66,7 +68,7 @@ export const HvCalendar = ({
           calendarClasses.singleCalendar,
           classes?.singleCalendar
         )}
-        id={localId}
+        id={singleId}
         locale={locale}
         value={localValue}
         visibleMonth={clampedMonth}

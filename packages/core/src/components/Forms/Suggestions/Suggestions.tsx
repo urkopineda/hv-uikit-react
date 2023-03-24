@@ -6,10 +6,9 @@ import {
   StyledSelectionList,
   StyledPopper,
 } from "./Suggestions.styles";
-import { setId } from "../../../utils";
 import { HvFormElementContext } from "../FormElement";
 import { HvListItem } from "../../ListContainer/ListItem";
-import { HvClickOutsideEvent, useClickOutside } from "../../../hooks";
+import { HvClickOutsideEvent, useClickOutside, useId } from "hooks";
 import suggestionsClasses, { HvSuggestionsClasses } from "./suggestionsClasses";
 
 export type HvSuggestion = {
@@ -46,7 +45,7 @@ export const HvSuggestions = ({
   ...others
 }: HvSuggestionsProps) => {
   const { elementId } = useContext(HvFormElementContext);
-  const localId = id ?? setId(elementId, "suggestions");
+  const suggestionsId = id ?? useId(elementId, "suggestions");
 
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(expanded);
@@ -62,7 +61,7 @@ export const HvSuggestions = ({
 
   return (
     <StyledRoot
-      id={localId}
+      id={suggestionsId}
       ref={ref}
       className={clsx(className, suggestionsClasses.root, classes?.root)}
       {...others}
@@ -75,11 +74,11 @@ export const HvSuggestions = ({
       >
         <StyledSelectionList
           className={clsx(suggestionsClasses.list, classes?.list)}
-          id={setId(localId, "list")}
+          id={useId(suggestionsId, "sugestions-list")}
           onChange={onSuggestionSelected}
         >
-          {suggestionValues?.map((item, i) => {
-            const itemKey = item.id || setId("item", i);
+          {suggestionValues?.map((item) => {
+            const itemKey = item.id || useId(null, "sugestions-list-item");
 
             return (
               <HvListItem

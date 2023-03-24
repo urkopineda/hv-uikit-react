@@ -9,7 +9,7 @@ import capitalize from "lodash/capitalize";
 import { HvBaseProps } from "../../types";
 import { StyledSnackbar } from "./Banner.styles";
 import bannerClasses, { HvBannerClasses } from "./bannerClasses";
-import { setId } from "../../utils";
+import { useId } from "hooks";
 import {
   HvBannerContent,
   HvBannerContentProps,
@@ -130,7 +130,7 @@ export const HvBanner = ({
       {...others}
     >
       <HvBannerContent
-        id={setId(id, "content")}
+        id={useId(id, "banner-content")}
         content={label}
         variant={variant}
         customIcon={customIcon}

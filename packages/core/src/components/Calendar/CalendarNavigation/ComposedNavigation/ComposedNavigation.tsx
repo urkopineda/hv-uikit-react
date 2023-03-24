@@ -1,6 +1,6 @@
 import { getMonthNamesList } from "../../utils";
 import { NAV_OPTIONS, VIEW_MODE, REPRESENTATION_VALUES } from "../../enums";
-import { setId } from "utils";
+import { useId } from "hooks";
 import { Navigation } from "../Navigation";
 import clsx from "clsx";
 import composedNavigationClasses, {
@@ -43,7 +43,7 @@ export const HvComposedNavigation = ({
         )}
       >
         <Navigation
-          id={setId(id, "navigation-month")}
+          id={useId(id, "navigation-month")}
           navigationText={monthName}
           onNavigatePrevious={(event) => {
             onChange?.(event, NAV_OPTIONS.PREVIOUS_MONTH);
@@ -62,7 +62,7 @@ export const HvComposedNavigation = ({
       </StyledNavigationMonth>
 
       <Navigation
-        id={setId(id, "navigation-year")}
+        id={useId(id, "navigation-year")}
         navigationText={visibleYear.toString()}
         onNavigatePrevious={(event) => {
           onChange?.(event, NAV_OPTIONS.PREVIOUS_YEAR);

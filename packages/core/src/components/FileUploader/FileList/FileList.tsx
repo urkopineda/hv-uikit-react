@@ -1,7 +1,6 @@
 import { HvFile, HvFileData, HvFileRemovedEvent } from "../File";
 import fileListClasses, { HvFileListClasses } from "./fileListClasses";
-import { useUniqueId } from "hooks";
-import { setId } from "utils";
+import { useId } from "hooks";
 import { StyledList } from "./FileList.styles";
 import clsx from "clsx";
 
@@ -35,21 +34,20 @@ export const HvFileList = ({
   removeFileButtonLabel,
   onFileRemoved,
 }: HvFileListProps) => {
-  const elementId = useUniqueId(id, "hvfilelist");
-
   const hasFiles = list.length > 0;
   if (!hasFiles) return null;
 
+  const fileListId = useId(id, "file-list");
   return (
     <StyledList
-      id={setId(id, "list")}
+      id={fileListId}
       className={clsx(classes?.list, fileListClasses.list)}
     >
       {list.map((data) => (
         <HvFile
           key={data.id}
           classes={{ root: clsx(classes?.listItem, fileListClasses.listItem) }}
-          id={setId(elementId, "values")}
+          id={useId(fileListId, "file-list-item")}
           data={data}
           onFileRemoved={onFileRemoved}
           removeFileButtonLabel={removeFileButtonLabel}
