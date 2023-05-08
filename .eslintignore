@@ -5,3 +5,9 @@ node_modules
 bin
 dist
 coverage
+
+app
+docs
+examples
+packages
+templates

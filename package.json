@@ -13,7 +13,7 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "npm run dev -w app",
+    "dev": "npm run dev -w studio",
     "doc": "start-storybook -p 6006 --no-manager-cache",
     "build": "npm run build -w packages",
     "build:doc": "build-storybook --docs -o dist --quiet",
@@ -51,7 +51,7 @@
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
-    "eslint": "^8.35.0",
+    "eslint": "^8.40.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.7.0",
@@ -99,6 +99,10 @@
   },
   "workspaces": [
     "packages/*",
-    "app/"
-  ]
+    "app/",
+    "studio/"
+  ],
+  "dependencies": {
+    "@dnd-kit/modifiers": "^6.0.1"
+  }
 }
