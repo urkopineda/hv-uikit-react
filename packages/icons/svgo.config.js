@@ -31,7 +31,12 @@ module.exports = {
     "removeTitle",
     "removeUnusedNS",
     "removeUselessDefs",
-    "removeUselessStrokeAndFill",
+    {
+      name: "removeUselessStrokeAndFill",
+      params: {
+        removeNone: true,
+      },
+    },
     "removeXMLProcInst",
     "sortAttrs",
     {

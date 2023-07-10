@@ -90,29 +90,45 @@ const ${componentName} = ({
   width,
   semantic,
   inverted = false,
-  svgProps,
+  svgProps = {},
   ...others
 }: IconBaseProps) => {
   const getColor = c => theme?.colors?.[c] || c;
-  const colorArray = 
-    (typeof color === "string" && [getColor(color)]) ||
-    (Array.isArray(color) && color.map?.(getColor)) ||
-    [${palette}];
+  const colorArray = [${palette}];
 
   if (semantic) {
     colorArray[0] = theme.colors?.[semantic] || colorArray[0];
   }
 
+  if (typeof color === "string") {
+    colorArray[0] = getColor(color);
+  } else if (Array.isArray(color)) {
+    color.forEach((c, i) => {
+      colorArray[i] = getColor(c);
+    });
+  }
+
   if (inverted && colorArray[1]) {
+    const tmp = colorArray[1];
     colorArray[1] = colorArray[0];
-    colorArray[0] = "none";
+    colorArray[0] = tmp;
   }
 
   const size = sizeSelector(iconSize, height, width);
 
+  const { style: svgStyle, ...otherSvgProps } = svgProps;
+
+  const colorVars = {};
+  colorArray.forEach((color, index) => {
+    colorVars["--icon-color-" + index] = color;
+  });
+
   return (
     <IconBase iconSize={iconSize ?? "S"} name="${componentName}" {...others}>
-      ${svgOutput.replace("{...other}", "focusable={false} {...svgProps}")}
+      ${svgOutput.replace(
+        "{...other}",
+        "focusable={false} style={{...colorVars, ...svgStyle}} {...otherSvgProps}"
+      )}
     </IconBase>
 )};
 

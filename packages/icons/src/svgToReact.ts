@@ -96,7 +96,7 @@ const writeFile = (processedSVG, fileName, subFolder = ".") => {
       );
       fs.appendFile(
         path.resolve(componentOutputFolder, `index.ts`),
-        `\nexport * from "./IconBase";\n`,
+        `\nexport * from "./IconBase";\nexport * from "./IconSprite";\n`,
         () => {}
       );
     } else {
@@ -175,6 +175,7 @@ const runUtil = (fileToRead, fileToWrite, subFolder = ".", depth = 0) => {
         .replace(/:props:/g, "{...other}")
         .replace(/width="(\d*?)"/g, `width={${widthValue}}`)
         .replace(/height="(\d*?)"/g, `height={${heightValue}}`)
+        .replace('fill="none"', "")
         .replace('style="isolation:isolate"', "")
         .replace('="">', ">");
 

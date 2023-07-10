@@ -25,11 +25,13 @@
   "scripts": {
     "build": "run-s clean convert:* build:*",
     "build:js": "vite build",
+    "build:copy": "npx cpy-cli \"sprites\" \"dist\"",
     "convert": "run-s clean convert:*",
     "convert:optimize": "svgo --config=./svgo.config.js -r -f assets assets",
     "convert:svg": "ts-node -r tsconfig-paths/register src/svgToReact.ts dir --input assets --output bin --force",
-    "convert:copy": "npx cpy-cli \"src/IconBase*\" \"bin\"",
-    "clean": "npx rimraf dist bin package",
+    "convert:sprites": "ts-node -r tsconfig-paths/register src/svgToSprites.ts dir --input assets --output sprites --force",
+    "convert:copy": "npx cpy-cli \"src/Icon*\" \"bin\"",
+    "clean": "npx rimraf dist bin sprites package",
     "prepare": "npm run convert",
     "prepublishOnly": "npm run build && npx clean-publish"
   },

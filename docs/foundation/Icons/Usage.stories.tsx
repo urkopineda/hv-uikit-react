@@ -41,7 +41,7 @@ IconSize.parameters = {
 
 export const CustomColors = () => (
   <Bookmark
-    color={["brand", "secondary"]}
+    color={["secondary", "brand"]}
     iconSize="M"
     aria-label="Click to bookmark"
   />

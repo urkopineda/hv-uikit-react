@@ -8,7 +8,7 @@ const replaceFill = (fileData, colorObject) => {
   colorObject.colorArray.forEach((element, index) => {
     result = result
       .split(`fill="${element}"`)
-      .join(`fill={colorArray[${index}]} className="color${index}" `);
+      .join(`fill="var(--icon-color-${index})" className="color${index}" `);
   });
 
   return result;
