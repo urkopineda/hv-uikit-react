@@ -34,11 +34,10 @@ const Zindices = lazy(() => import("generator/Zindices"));
 const Sizes = lazy(() => import("generator/Sizes"));
 
 const Sidebar = () => {
-  const { selectedTheme, selectedMode, colorModes, changeTheme, themes } =
-    useTheme();
-
+  const { selectedMode, colorModes, changeTheme, themes } = useTheme();
   const { customTheme, updateCustomTheme, open } = useContext(GeneratorContext);
 
+  const [selectedTheme, setSelectedTheme] = useState("ds5");
   const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState(0);
 
@@ -47,9 +46,8 @@ const Sidebar = () => {
     setCopied(false);
   };
 
-  const handleThemeChange = (base: HvBaseTheme, mode: string) => {
+  const handleThemeChange = (base: HvBaseTheme) => {
     updateCustomTheme({ base, name: customTheme.name }, { isBaseChange: true });
-    changeTheme(base, mode);
   };
 
   return (
@@ -77,7 +75,8 @@ const Sidebar = () => {
                 selected: name === selectedTheme,
               }))}
               onChange={(base) => {
-                handleThemeChange((base as HvListValue)?.value, selectedMode);
+                setSelectedTheme((base as HvListValue)?.value);
+                handleThemeChange((base as HvListValue)?.value);
               }}
             />
             <HvTypography variant="label">Mode:</HvTypography>
@@ -88,7 +87,7 @@ const Sidebar = () => {
                 selected: name === selectedMode,
               }))}
               onChange={(mode) =>
-                changeTheme(selectedTheme, (mode as HvListValue)?.value)
+                changeTheme("ds5", (mode as HvListValue)?.value)
               }
             />
           </HvBox>
