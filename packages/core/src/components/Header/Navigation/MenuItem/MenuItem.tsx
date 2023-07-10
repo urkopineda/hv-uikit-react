@@ -1,7 +1,7 @@
 import React, { MouseEvent, useContext } from "react";
 import { HvHeaderNavigationItemProp, HvTypography } from "@core/components";
 import { HvBaseProps } from "@core/types";
-import { isKeypress, keyboardCodes } from "@core/utils";
+import { isKey } from "@core/utils";
 import { HvMenuBar } from "../MenuBar";
 import { FocusContext } from "../utils/FocusContext";
 import { SelectionContext } from "../utils/SelectionContext";
@@ -55,8 +55,8 @@ export const HvMenuItem = ({ id, item, type, onClick }: MenuItemProps) => {
   const actionHandler = (event: any) => {
     if (
       event.type === "click" ||
-      isKeypress(event, keyboardCodes.Enter) ||
-      isKeypress(event, keyboardCodes.SpaceBar)
+      isKey(event, "Enter") ||
+      isKey(event, "Space")
     ) {
       if (event.type === "click") {
         event.currentTarget.blur();
