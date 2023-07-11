@@ -7,7 +7,7 @@ import {
   HvTimePickerProps,
   HvTimePickerValue,
 } from "./TimePicker";
-import { HvButton, HvInput, HvSwitch } from "..";
+import { HvButton, HvInput, HvSwitch } from "../index";
 
 export default {
   title: "Components/Time Picker",
